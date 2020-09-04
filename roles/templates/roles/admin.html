@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Admin</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style type="text/css">
+    @media screen and (min-width:701px)
+    {
+      .create
+      {
+        width:30%;
+        margin:auto;
+        margin-top: 5%;
+      }
+    }
+    @media screen and (max-width:700px)
+    {
+      .create
+      {
+        width:100%;
+        margin:auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container-fluid">
+  {% if 'email' in request.session %} 
+  {% if 'Admin' in request.session.role %}
+	<nav class="navbar navbar-expand-md bg-info navbar-dark">
+  <a class="navbar-brand text-white" href="#">{{request.session.role}}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/home/">{{request.session.email}} </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/view_users/">View Users</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/applications/">View Applications</a>
+      </li>
+     
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/logout/">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<br>
+{{message}}
+<div class="shadow-lg p-4 mb-4 bg-white create">
+  <h4>Create Users</h4>
+      <form method ="post" action="/create_users/">
+        <div class="form-group">
+          {% csrf_token %}
+          <label>Email</label>
+          <input type="email" name="email" class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Role</label>
+          <select name="role" class="form-control">
+            <option selected disabled>Select</option>
+            <option value="Manager">Manager</option>
+            <option value="Employee">Employee</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" name="password" class="form-control" maxlenght="8" placeholder="max-length 8 characters">
+        </div>
+        <div class="form-group">
+          <input type="submit" name="create" class="btn btn-info" value="Create">
+        </div>
+      </form>
+    </div>
+ {%endif%}
+{%endif%}
+</div>
+</body>
+</html>
